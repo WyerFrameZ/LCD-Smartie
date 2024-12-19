@@ -23,7 +23,7 @@ This repository contains example codes, configuration files, and schematics for 
 - Download LCD Smartie program for Windows: https://sourceforge.net/projects/lcdsmartie/files/lcdsmartie/5.4.2.92%2B%2B/LCD_Smartie_v5.4.2.92%2B%2B.zip/download
   
 ### 2. **Code**
-Find in this repository code for your LCD Dsiplay.
+Find in this repository code for your LCD Dsiplay.                                                                                                                                                                   
 Currently supporting:
 - 16x2
 - 20x4
