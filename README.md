@@ -43,9 +43,7 @@ Refer to the schematic diagram for connecting the LCD display to the Arduino. Be
 | K       | GND         | Backlight ground             |
 
 **Schematic:**
-
-[![LCD 16x2 Connection](LCD-Smartie/Arduni uno example.png)](https://www.arduino.cc/en/uploads/Tutorial/LCD_Base_bb_Fritz.png)
-https://www.arduino.cc/en/uploads/Tutorial/LCD_Base_bb_Fritz.png
+![Forge Logo](img/uno.png)
 ---
 
 ### 3. **Software Setup**
