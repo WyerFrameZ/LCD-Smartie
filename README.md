@@ -25,7 +25,7 @@ This repository contains example codes, configuration files, and schematics for 
 ### 2. **Code**
 Find in this repository code for your LCD Dsiplay.                                                                                                                                                                   
 Currently supporting:
-- 16x2
+- 16x2 -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/16X2%20LCD
 - 20x4
 - more in near future!
 
