@@ -44,7 +44,7 @@ Refer to the schematic diagram for connecting the LCD display to the Arduino. Be
 
 **Schematic:**
 
-![LCD 16x2 Connection](path-to-your-image.jpg)
+![LCD 16x2 Connection](Arduni uno example.png)
 
 ---
 
