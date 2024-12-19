@@ -1,0 +1,51 @@
+#include <LiquidCrystal.h>
+
+// LCD options
+const int numRows = 2;
+const int numCols = 16;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(numCols, numRows);
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("LCD Smartie!");
+}
+
+void loop() {
+  if (Serial.available()) {
+    byte received = Serial.read();
+
+    // Matrix Orbital (prefix 254)
+    if (received == 254) {
+      byte command = serial_getch();
+      handleCommand(command);
+    } else {
+      lcd.print((char)received);
+    }
+  }
+}
+
+byte serial_getch() {
+  while (Serial.available() == 0);
+  return Serial.read();
+}
+
+void handleCommand(byte command) {
+  switch (command) {
+    case 71: 
+      int col = serial_getch() - 1; 
+      int row = serial_getch() - 1; 
+      lcd.setCursor(col, row);
+      break;
+    case 72: 
+      lcd.home();
+      break;
+    case 88: 
+      lcd.clear();
+      break;
+    default:
+      break;
+  }
+}
