@@ -21,12 +21,14 @@ This repository contains example codes, configuration files, and schematics for 
 - Potentiometer or rezistors (for adjusting LCD contrast).
 - Connection wires and a breadboard.
 - Download LCD Smartie program for Windows: https://sourceforge.net/projects/lcdsmartie/files/lcdsmartie/5.4.2.92%2B%2B/LCD_Smartie_v5.4.2.92%2B%2B.zip/download
+- Download DLL for your Smartie program -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/LCDT.dll
   
 ### 2. **Code**
 Find in this repository code for your LCD Dsiplay.                                                                                                                                                                   
 Currently supporting:
 - 16x2 -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/16X2%20LCD
-- 20x4
+- 20x4 -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/20x4%20LCD
+- 40x4 (coming soon)
 - more in near future!
 
 ### 3. **Connections**
