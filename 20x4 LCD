@@ -1,1 +1,63 @@
-!
+#include <LiquidCrystal.h>
+
+const int numRows = 4;  
+const int numCols = 20; 
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+void setup() { 
+  Serial.begin(9600); 
+  lcd.begin(numCols, numRows); 
+  lcd.clear();
+  
+  // WELCOME SCREEN -  CHANGE TO WHATEVER U WANT
+  lcd.setCursor(0, 0);
+  lcd.print("**LCD SMARTIE**");
+  lcd.setCursor(0, 1);
+  lcd.print("Arduino");
+  lcd.setCursor(0, 2);
+  lcd.print("20x4 Screen");
+  lcd.setCursor(0, 3);
+  lcd.print("Ready to work!");
+}
+
+byte serial_getch() {
+  while (Serial.available() == 0) {}
+  return (byte)(Serial.read() & 0xFF);
+}
+
+void loop() {
+  byte rxbyte = serial_getch();
+  byte temp;
+
+  if (rxbyte == 254) { 
+    switch (serial_getch()) {
+    case 71: 
+      temp = serial_getch() - 1; 
+      switch (serial_getch()) {  /
+        case 2: temp += 0x40; break;
+        case 3: temp += 0x14; break;
+        case 4: temp += 0x54; break;
+        default: break;  
+      }
+      lcd.command(0b10000000 + temp);
+      break;
+    case 72: lcd.command(2); break;  
+    case 74: lcd.command(0b00001110); break; 
+    case 75: case 84: lcd.command(0b00001100); break;  
+    case 76: lcd.command(16); break;  
+    case 77: lcd.command(20); break;
+    case 78:  
+      lcd.command(64 + (serial_getch() * 8));
+      for (temp = 0; temp < 8; temp++) {
+        lcd.write(serial_getch());  
+      }
+      break;
+    case 83: lcd.command(0b00001111); break; 
+    case 88: lcd.command(1); break;  
+    default: serial_getch(); break;  
+    }
+    return;
+  }
+  lcd.write(rxbyte);
+}
