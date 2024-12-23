@@ -8,7 +8,7 @@ This repository contains example codes, configuration files, and schematics for 
 - Supports **16x2**, **20x4**, and similar LCD sizes.
 - Compatible with **HD44780-based LCD controllers**.
 - Detailed instructions for connecting the LCD to an Arduino.
-- Pre-configured plugin examples (e.g., **LCDT.dll**) for seamless integration with LCD Smartie.
+- DLL plugin (**LCDT.dll**) for seamless integration with LCD Smartie.
 
 ---
 
