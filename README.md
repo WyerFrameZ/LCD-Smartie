@@ -55,7 +55,7 @@ Refer to the schematic diagram for connecting the LCD display to the Arduino. Be
 ![Forge Logo](img/uno.png)
 ---
 
-### 3. **Software Setup**
+### 4. **Setup**
 1. Clone this repository:
    ```bash
    git clone https://github.com/WyerFrameZ/LCD-Smartie.git
