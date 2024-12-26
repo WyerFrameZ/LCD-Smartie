@@ -34,7 +34,7 @@ void loop() {
     switch (serial_getch()) {
     case 71: 
       temp = serial_getch() - 1; 
-      switch (serial_getch()) {  /
+      switch (serial_getch()) {  
         case 2: temp += 0x40; break;
         case 3: temp += 0x14; break;
         case 4: temp += 0x54; break;
