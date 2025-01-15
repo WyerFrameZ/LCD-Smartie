@@ -15,7 +15,7 @@ void setup() {
   lcd.setCursor(0, 0); 
   lcd.print("LCD Smartie!");
 
-  lcd.setCursor(0, 1);  // Ustawiamy kursor na drugiej linii
+  lcd.setCursor(0, 1);  
   lcd.print("40x4 Display");
 
   lcd.setCursor(0, 2);  // Ustawiamy kursor na trzeciej linii
