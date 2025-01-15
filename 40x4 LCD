@@ -1,11 +1,10 @@
 #include <LiquidCrystal.h>
 
-// LCD function: RS, RW, EN1, EN2, D4, D5, D6, D7
-// Ustawienie pinów na podstawie poprzednich ustawień
-LiquidCrystal lcd(12, 11, 10, 9, 5, 4, 3, 2);  // RS, RW, E1, E2, D4, D5, D6, D7
+// LCD function:  RS, RW, EN1, EN2, D4, D5, D6, D7
+LiquidCrystal lcd(12, 11, 10,   9,   5,  4,  3,  2);  
 
-const int numRows = 4;  // Cztery linie
-const int numCols = 40; // Czterdzieści kolumn
+const int numRows = 4;  
+const int numCols = 40; 
 
 void setup() {
   Serial.begin(9600);   // Inicjalizacja portu szeregowego
