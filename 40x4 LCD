@@ -1,1 +1,70 @@
-cooming soon!
+#include <LiquidCrystal.h>
+
+// LCD function: RS, RW, EN1, EN2, D4, D5, D6, D7
+// Ustawienie pinów na podstawie poprzednich ustawień
+LiquidCrystal lcd(12, 11, 10, 9, 5, 4, 3, 2);  // RS, RW, E1, E2, D4, D5, D6, D7
+
+const int numRows = 4;  // Cztery linie
+const int numCols = 40; // Czterdzieści kolumn
+
+void setup() {
+  Serial.begin(9600);   // Inicjalizacja portu szeregowego
+  lcd.begin(numCols, numRows);  // Ustawienie LCD na 40 kolumn i 4 wiersze
+  lcd.clear();          // Czyszczenie ekranu
+  
+  // Wyświetlanie początkowego tekstu na LCD
+  lcd.setCursor(0, 0);  // Ustawiamy kursor na pierwszej linii
+  lcd.print("LCD Smartie!");
+
+  lcd.setCursor(0, 1);  // Ustawiamy kursor na drugiej linii
+  lcd.print("40x4 Display");
+
+  lcd.setCursor(0, 2);  // Ustawiamy kursor na trzeciej linii
+  lcd.print("Ready to work!");
+
+  lcd.setCursor(0, 3);  // Ustawiamy kursor na czwartej linii
+  lcd.print("Arduino Project");
+}
+
+void loop() {
+  if (Serial.available()) {
+    byte received = Serial.read();
+
+    // Sprawdzamy, czy otrzymaliśmy prefiks 254 (Matrix Orbital)
+    if (received == 254) {
+      byte command = serial_getch();
+      handleCommand(command);  // Obsługuje odpowiednią komendę
+    } else {
+      // Wyświetlanie odebranego tekstu na LCD
+      lcd.print((char)received);
+    }
+  }
+}
+
+// Funkcja do odbierania danych przez port szeregowy
+byte serial_getch() {
+  while (Serial.available() == 0);
+  return Serial.read();
+}
+
+// Funkcja obsługująca komendy z portu szeregowego
+void handleCommand(byte command) {
+  switch (command) {
+    case 71:  // Ustawienie kursora
+      int col = serial_getch() - 1;  // Odczyt kolumny (indeksujemy od 0)
+      int row = serial_getch() - 1;  // Odczyt wiersza (indeksujemy od 0)
+      lcd.setCursor(col, row);  // Ustawienie kursora na wskazanej pozycji
+      break;
+      
+    case 72:  // Powrót do początku ekranu
+      lcd.home();
+      break;
+      
+    case 88:  // Czyszczenie ekranu
+      lcd.clear();
+      break;
+      
+    default:  // Ignorowanie innych komend
+      break;
+  }
+}
