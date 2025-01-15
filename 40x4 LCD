@@ -12,7 +12,7 @@ void setup() {
   lcd.clear();          // Czyszczenie ekranu
   
   // Wyświetlanie początkowego tekstu na LCD
-  lcd.setCursor(0, 0);  // Ustawiamy kursor na pierwszej linii
+  lcd.setCursor(0, 0); 
   lcd.print("LCD Smartie!");
 
   lcd.setCursor(0, 1);  // Ustawiamy kursor na drugiej linii
