@@ -50,16 +50,16 @@ byte serial_getch() {
 void handleCommand(byte command) {
   switch (command) {
     case 71:  // Ustawienie kursora
-      int col = serial_getch() - 1;  // Odczyt kolumny (indeksujemy od 0)
-      int row = serial_getch() - 1;  // Odczyt wiersza (indeksujemy od 0)
-      lcd.setCursor(col, row);  // Ustawienie kursora na wskazanej pozycji
+      int col = serial_getch() - 1;  
+      int row = serial_getch() - 1;  
+      lcd.setCursor(col, row);  
       break;
       
-    case 72:  // Powrót do początku ekranu
+    case 72:  
       lcd.home();
       break;
       
-    case 88:  // Czyszczenie ekranu
+    case 88:  
       lcd.clear();
       break;
       
