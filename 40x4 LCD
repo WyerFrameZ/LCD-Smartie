@@ -11,14 +11,13 @@ void setup() {
   lcd.begin(numCols, numRows);  // Ustawienie LCD na 40 kolumn i 4 wiersze
   lcd.clear();          // Czyszczenie ekranu
   
-  // Wyświetlanie początkowego tekstu na LCD
   lcd.setCursor(0, 0); 
   lcd.print("LCD Smartie!");
 
   lcd.setCursor(0, 1);  
   lcd.print("40x4 Display");
 
-  lcd.setCursor(0, 2);  // Ustawiamy kursor na trzeciej linii
+  lcd.setCursor(0, 2);  
   lcd.print("Ready to work!");
 
   lcd.setCursor(0, 3);  // Ustawiamy kursor na czwartej linii
