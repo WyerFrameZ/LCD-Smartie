@@ -28,7 +28,7 @@ Find in this repository code for your LCD Dsiplay.
 Currently supporting:
 - 16x2 -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/16X2%20LCD
 - 20x4 -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/20x4%20LCD
-- 40x4 (coming soon)
+- 40x4 -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/40x4%20LCD
 - more in near future!
 
 ### 3. **Connections**
