@@ -9,7 +9,7 @@ const int numCols = 40;
 void setup() {
   Serial.begin(9600);   
   lcd.begin(numCols, numRows); 
-  lcd.clear();          // Czyszczenie ekranu
+  lcd.clear();         
   
   lcd.setCursor(0, 0); 
   lcd.print("LCD Smartie!");
