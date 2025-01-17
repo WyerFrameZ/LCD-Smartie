@@ -7,7 +7,7 @@ const int numRows = 4;
 const int numCols = 40; 
 
 void setup() {
-  Serial.begin(9600);   // Inicjalizacja portu szeregowego
+  Serial.begin(9600);   
   lcd.begin(numCols, numRows);  // Ustawienie LCD na 40 kolumn i 4 wiersze
   lcd.clear();          // Czyszczenie ekranu
   
