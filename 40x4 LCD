@@ -20,7 +20,7 @@ void setup() {
   lcd.setCursor(0, 2);  
   lcd.print("Ready to work!");
 
-  lcd.setCursor(0, 3);  // Ustawiamy kursor na czwartej linii
+  lcd.setCursor(0, 3);  
   lcd.print("Arduino Project");
 }
 
