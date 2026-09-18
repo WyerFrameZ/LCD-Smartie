@@ -1,68 +1,164 @@
-#include <LiquidCrystal.h>
+#include <LiquidCrystalFast.h>
 
-// LCD function:  RS, RW, EN1, EN2, D4, D5, D6, D7
-LiquidCrystal lcd(12, 11, 10,   9,   5,  4,  3, 2);  
+#define PIN_RS   12
+#define PIN_RW   11
+#define PIN_EN1  10
+#define PIN_EN2  9
+#define PIN_D4   5
+#define PIN_D5   4
+#define PIN_D6   3
+#define PIN_D7   2
 
-const int numRows = 4;  
-const int numCols = 40; 
+#define LCD_COLS 40
+#define LCD_ROWS 4
 
-void setup() {
-  Serial.begin(9600);   
-  lcd.begin(numCols, numRows); 
-  lcd.clear();         
-  
-  lcd.setCursor(0, 0); 
-  lcd.print("LCD Smartie!");
+#define SERIAL_BAUD    9600
+#define SERIAL_TIMEOUT 100   // ms to wait for command parameters
 
-  lcd.setCursor(0, 1);  
-  lcd.print("40x4 Display");
+LiquidCrystalFast lcd(PIN_RS, PIN_RW, PIN_EN1, PIN_EN2, PIN_D4, PIN_D5, PIN_D6, PIN_D7);
 
-  lcd.setCursor(0, 2);  
-  lcd.print("Ready to work!");
-
-  lcd.setCursor(0, 3);  
-  lcd.print("Arduino Project");
+static void writeNibble(uint8_t en, uint8_t nibble)
+{
+  digitalWrite(PIN_D4, nibble & 0x01);
+  digitalWrite(PIN_D5, nibble & 0x02);
+  digitalWrite(PIN_D6, nibble & 0x04);
+  digitalWrite(PIN_D7, nibble & 0x08);
+  digitalWrite(en, HIGH);
+  delayMicroseconds(2);
+  digitalWrite(en, LOW);
+  delayMicroseconds(100);
 }
 
-void loop() {
-  if (Serial.available()) {
-    byte received = Serial.read();
+/*
+ * Force a controller into a known 4-bit state (HD44780 datasheet, fig. 24).
+ *
+ * Needed because opening the COM port resets the Arduino via DTR while the
+ * LCD stays powered. If the reset hits in the middle of a byte, that chip
+ * is left with its nibble phase shifted and LiquidCrystalFast::begin()
+ * (which talks to both chips before chip 2 gets its own reset sequence)
+ * would leave it showing garbage.
+ */
+static void resetController(uint8_t en)
+{
+  digitalWrite(PIN_RS, LOW);
+  digitalWrite(PIN_RW, LOW);
+  digitalWrite(en, LOW);
 
-    // Sprawdzamy, czy otrzymaliśmy prefiks 254 (Matrix Orbital)
-    if (received == 254) {
-      byte command = serial_getch();
-      handleCommand(command);  // Obsługuje odpowiednią komendę
-    } else {
-      // Wyświetlanie odebranego tekstu na LCD
-      lcd.print((char)received);
-    }
+  writeNibble(en, 0x03);
+  delay(5);
+  writeNibble(en, 0x03);
+  delayMicroseconds(200);
+  writeNibble(en, 0x03);
+  delayMicroseconds(200);
+  writeNibble(en, 0x02);
+  delayMicroseconds(200);
+}
+
+static void lcdInit()
+{
+  const uint8_t pins[] = { PIN_RS, PIN_RW, PIN_EN1, PIN_EN2, PIN_D4, PIN_D5, PIN_D6, PIN_D7 };
+  for (uint8_t i = 0; i < sizeof(pins); i++) {
+    pinMode(pins[i], OUTPUT);
+    digitalWrite(pins[i], LOW);
   }
+
+  delay(200);   // let the LCD supply settle on cold start
+
+  resetController(PIN_EN1);
+  resetController(PIN_EN2);
+
+  lcd.begin(LCD_COLS, LCD_ROWS);
 }
 
-// Funkcja do odbierania danych przez port szeregowy
-byte serial_getch() {
-  while (Serial.available() == 0);
+
+static int serialGetc()
+{
+  unsigned long start = millis();
+  while (!Serial.available()) {
+    if (millis() - start > SERIAL_TIMEOUT)
+      return -1;
+  }
   return Serial.read();
 }
 
-// Funkcja obsługująca komendy z portu szeregowego
-void handleCommand(byte command) {
-  switch (command) {
-    case 71:  // Ustawienie kursora
-      int col = serial_getch() - 1;  
-      int row = serial_getch() - 1;  
-      lcd.setCursor(col, row);  
+static void handleCommand(int cmd)
+{
+  switch (cmd) {
+    case 71: {  // set cursor, 1-based col/row
+      int col = serialGetc();
+      int row = serialGetc();
+      if (col < 0 || row < 0)
+        return;
+      col = constrain(col - 1, 0, LCD_COLS - 1);
+      row = constrain(row - 1, 0, LCD_ROWS - 1);
+      lcd.setCursor(col, row);
       break;
-      
-    case 72:  
+    }
+
+    case 72:  // home
       lcd.home();
       break;
-      
-    case 88:  
+
+    case 88:  // clear
       lcd.clear();
       break;
-      
-    default:  // Ignorowanie innych komend
+
+    case 78: {  // define custom char: index + 8 rows
+      int idx = serialGetc();
+      uint8_t map[8];
+      for (uint8_t i = 0; i < 8; i++) {
+        int b = serialGetc();
+        if (b < 0)
+          return;
+        map[i] = b;
+      }
+      if (idx >= 0)
+        lcd.createChar(idx, map);
       break;
+    }
+
+    case 74: lcd.cursor();   break;
+    case 75: lcd.noCursor(); break;
+    case 83: lcd.blink();    break;
+    case 84: lcd.noBlink();  break;
+
+    // one-parameter commands we don't act on: backlight on (minutes),
+    // contrast, brightness - just eat the argument
+    case 66:
+    case 80:
+    case 152:
+    case 153:
+      serialGetc();
+      break;
+
+    default:
+      break;
+  }
+}
+
+void setup()
+{
+  Serial.begin(SERIAL_BAUD);
+  lcdInit();
+
+  lcd.setCursor(0, 0);
+  lcd.print("LCD Smartie 40x4");
+  lcd.setCursor(0, 3);
+  lcd.print("waiting for host...");
+}
+
+void loop()
+{
+  if (!Serial.available())
+    return;
+
+  int c = Serial.read();
+
+  if (c == 254) {
+    int cmd = serialGetc();
+    if (cmd >= 0)
+      handleCommand(cmd);
+  } else {
+    lcd.write((uint8_t)c);
   }
 }
