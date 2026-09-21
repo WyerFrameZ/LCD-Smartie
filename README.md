@@ -18,7 +18,7 @@ This repository contains example codes, configuration files, and schematics for 
 
 - An Arduino-compatible microcontroller (e.g., Arduino Uno, Mega).
 - LCD display (e.g., 16x2 or 20x4) with HD44780 controller.
-- Potentiometer or rezistors (for adjusting LCD contrast).
+- Potentiometer or rezistors (for adjusting LCD contrast and brightnes).
 - Connection wires and a breadboard.
 - Download LCD Smartie program for Windows: https://sourceforge.net/projects/lcdsmartie/files/lcdsmartie/5.4.2.92%2B%2B/LCD_Smartie_v5.4.2.92%2B%2B.zip/download
 - Download DLL for your Smartie program -> https://github.com/WyerFrameZ/LCD-Smartie/blob/main/LCDT.dll
@@ -32,6 +32,7 @@ Currently supporting:
 - more in near future!
 
 ### 3. **Connections**
+## 3.1 16x2 & 20x4
 Refer to the schematic diagram for connecting the LCD display to the Arduino. Below is an example for a **classic LCD**:
 
 | LCD Pin | Arduino Pin | Description                   |
@@ -50,10 +51,10 @@ Refer to the schematic diagram for connecting the LCD display to the Arduino. Be
 | K       | GND         | Backlight ground             |
 
 **Schematic:**
-- Will work with 16x4, 20x4 etc
 
 ![Forge Logo](img/uno.png)
 ---
+## 3.2 40x4
 
 ### 4. **Setup**
 1. Clone this repository:
