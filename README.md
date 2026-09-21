@@ -32,7 +32,7 @@ Currently supporting:
 - more in near future!
 
 ### 3. **Connections**
-## 3.1 16x2 & 20x4
+### 3.1 16x2 & 20x4
 Refer to the schematic diagram for connecting the LCD display to the Arduino. Below is an example for a **classic LCD**:
 
 | LCD Pin | Arduino Pin | Description                   |
@@ -53,8 +53,8 @@ Refer to the schematic diagram for connecting the LCD display to the Arduino. Be
 **Schematic:**
 
 ![Forge Logo](img/uno.png)
----
-## 3.2 40x4
+
+### 3.2 40x4
 
 ### 4. **Setup**
 1. Clone this repository:
